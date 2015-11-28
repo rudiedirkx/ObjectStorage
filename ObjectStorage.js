@@ -39,7 +39,7 @@ ObjectStorage = (function() {
 			catch (ex) {}
 		}
 		if (set) {
-			storage[name] = root;
+			storage[name] = JSON.stringify(root);
 		}
 		findAndObserveAll(root, function() {
 			storage[name] = JSON.stringify(root);

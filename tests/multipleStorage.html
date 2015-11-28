@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>ObjectStorage test</title>
+</head>
+
+<body>
+
+<p>See console</p>
+
+<script src="../ObjectStorage.js"></script>
+<script>
+deepLocal = ObjectStorage(localStorage, 'multi1');
+deepSession = ObjectStorage(sessionStorage, 'multi2');
+superSession = ObjectStorage(sessionStorage, 'multi3');
+
+deepLocal.one = 'one';
+deepLocal.counter || (deepLocal.counter = 0);
+deepLocal.counter += Math.round(Math.random() * 5);
+deepSession.one = 'one';
+deepSession.counter || (deepSession.counter = 0);
+deepSession.counter += Math.round(Math.random() * 5);
+superSession.one = 'one';
+superSession.counter || (superSession.counter = 0);
+superSession.counter += Math.round(Math.random() * 5);
+
+debug(deepLocal, localStorage, 'multi1');
+debug(deepSession, sessionStorage, 'multi2');
+debug(superSession, sessionStorage, 'multi3');
+
+function debug(obj, storage, name) {
+	console.log('object[' + name + ']', obj);
+	setTimeout(function() {
+		// Object.observe() is async, so writing to xStorage is async, so we
+		// wait a tick to show the results
+		console.log('storage[' + name + ']', storage[name]);
+	});
+}
+</script>
+
+</body>
+
+</html>
