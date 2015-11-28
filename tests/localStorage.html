@@ -20,6 +20,11 @@ deep.counter++;
 deep.arr || (deep.arr = []);
 deep.arr.push(String(Math.random()).substr(2));
 
+if (deep.arr.length > 4) {
+	deep.arr.splice(2, 1, {obj: 'new'});
+	deep.arr[2].tracking = 1;
+}
+
 deep.even || (deep.even = {much: {deeper: {is: {possible: ['with']}}}});
 deep.even.much.deeper.is.possible.push('without');
 deep.even.much.deeper.is.possible.unshift('with');

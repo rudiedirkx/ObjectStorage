@@ -28,23 +28,32 @@ ObjectStorage = (function() {
 		}
 	}
 
-	function ObjectStorage(storage, name) {
-		var root = {};
-		var set = true;
-		if (storage[name] != null) {
-			try {
-				root = JSON.parse(storage[name]);
-				set = false;
+	function ObjectStorage(storage, names) {
+		var multi = names instanceof Array;
+		multi || (names = [names]);
+
+		var copy = {};
+		names.forEach(function(name) {
+			var root = {};
+			var set = true;
+			if (storage[name] != null) {
+				try {
+					root = JSON.parse(storage[name]);
+					set = false;
+				}
+				catch (ex) {}
 			}
-			catch (ex) {}
-		}
-		if (set) {
-			storage[name] = JSON.stringify(root);
-		}
-		findAndObserveAll(root, function() {
-			storage[name] = JSON.stringify(root);
+			if (set) {
+				storage[name] = JSON.stringify(root);
+			}
+			findAndObserveAll(root, function() {
+				storage[name] = JSON.stringify(root);
+			});
+
+			copy[name] = root;
 		});
-		return root;
+
+		return multi ? copy : copy[ names[0] ];
 	}
 
 	return ObjectStorage;

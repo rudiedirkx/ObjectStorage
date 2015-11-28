@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>ObjectStorage test</title>
+</head>
+
+<body>
+
+<p>See console</p>
+
+<script src="../ObjectStorage.js"></script>
+<script>
+session = ObjectStorage(sessionStorage, ['cp1', 'cp2', 'cp3']);
+
+session.cp1.ass = 'face';
+session.cp2.arr = ['oele', 'boele'];
+session.cp3.must = {go: {deeper: ['much', 'much', 'deeper']}};
+
+console.log('object', session);
+setTimeout(function() {
+	// Object.observe() is async, so writing to localStorage is async, so we
+	// wait a tick to show the results
+	console.log('storage', sessionStorage);
+});
+</script>
+
+</body>
+
+</html>
